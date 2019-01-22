@@ -30,8 +30,8 @@ shouldComponentUpdate() {
 
   drawChart(dataset) {
 
-    d3.select("#chart").selectAll("*").remove();
-
+    d3.selectAll("svg").remove();
+    
     var diameter = 800;
 
     var bubble = d3.pack(dataset)
@@ -43,6 +43,7 @@ shouldComponentUpdate() {
       .attr("width", diameter)
       .attr("height", diameter)
       .attr("class", "bubble");
+      
 
     var nodes = d3.hierarchy(dataset)
       .sum(function (d) { return d.Count; });
@@ -58,7 +59,6 @@ shouldComponentUpdate() {
       .attr("transform", function (d) {
         return "translate(" + d.x + "," + d.y + ")";
       });
-      
 
     node.append("title")
       .text(function (d) {
@@ -66,12 +66,16 @@ shouldComponentUpdate() {
       });
 
     node.append("circle")
+      .on("click", function (d) {
+        console.log(d.data.Name)
+      })
       .attr("r", function (d) {
         return d.r;
       })
       .style("fill", function (d) {
         return d.data.Color;
-      });
+      })
+      ;
 
     node.append("text")
       .attr("dy", ".2em")
@@ -96,7 +100,6 @@ shouldComponentUpdate() {
         return d.r / 5;
       })
       .attr("fill", "white");
-
   }
  
   render () {

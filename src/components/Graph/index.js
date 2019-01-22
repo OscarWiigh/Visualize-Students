@@ -17,30 +17,20 @@ class Graph extends React.Component {
     }
 }
 
-componentDidUpdate() {
-  if (this.state.data.length !== 0) {
-    this.drawChart()
-    }
+componentDidMount() {
+  const { data } = this.props;
+  this.drawChart(data)
+}
+componentWillReceiveProps({data}) {
+  this.drawChart(data)
+}
+shouldComponentUpdate() {
+  return false;
 }
 
-componentWillReceiveProps(nextProps) {
-  const data = nextProps.data;
-    if (data !== undefined) {
-      var objects = [];
-      for (var i = 0; i < data.length; i++) {
-        objects[i] = {"Name": data[i].gsx$whatisyourfirstandlastname.$t, "Count": parseInt(data[i][this.state.skill].$t), "Color": data[i].gsx$color.$t };
-      }
+  drawChart(dataset) {
 
-      var dataset = {"children" : objects};
-      this.setState({data: dataset});
-}
-}
-
-  drawChart() {
-    
-
-    const div = new ReactFauxDOM.createElement('div');
-    const dataset = this.state.data;
+    d3.select("#chart").selectAll("*").remove();
 
     var diameter = 800;
 
@@ -48,7 +38,7 @@ componentWillReceiveProps(nextProps) {
       .size([diameter, diameter])
       .padding(1.5);
 
-    var svg = d3.select(div)
+    var svg = d3.select("#chart")
       .append("svg")
       .attr("width", diameter)
       .attr("height", diameter)
@@ -107,17 +97,12 @@ componentWillReceiveProps(nextProps) {
       })
       .attr("fill", "white");
 
-    //DOM manipulations done, convert to React
-    return div.toReact()
   }
  
   render () {
-    if(this.state.data.length !== 0) {
-      return this.drawChart();
-    }
-    else {return "Loading"}
-    
-  }
+    return (
+      <div id="chart" />
+    );}
 }
 
 export default Graph;

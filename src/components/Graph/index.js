@@ -1,6 +1,7 @@
 import React from "react"
 import "./graph.css";
 import * as d3 from 'd3';
+import SimpleTable from "../SimpleTable"
 
 
 class Graph extends React.Component {
@@ -9,6 +10,7 @@ class Graph extends React.Component {
     super(props);
     this.drawChart = this.drawChart.bind(this)
     this.addPerson = this.addPerson.bind(this)
+    this.removePerson = this.removePerson.bind(this)
 
     this.state = {
       selectedpersons: []
@@ -66,7 +68,7 @@ class Graph extends React.Component {
 
   removePerson(pers) {
     const persons = this.state.selectedpersons;
-    var filteredArray = persons.filter(e => e !== pers)
+    var filteredArray = persons.filter(e => e.Name !== pers.Name)
     this.setState({
       selectedpersons: filteredArray
     })
@@ -155,8 +157,7 @@ class Graph extends React.Component {
   }
 
   render() {
-    console.log(this)
-    return (<div><div id="chart" /></div>
+    return (<div><div id="chart" /><SimpleTable data={this.state.selectedpersons}/></div>
       
       );
   }

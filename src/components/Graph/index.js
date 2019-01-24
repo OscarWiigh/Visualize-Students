@@ -1,7 +1,6 @@
 import React from "react"
 import "./graph.css";
 import * as d3 from 'd3';
-import * as ReactFauxDOM from 'react-faux-dom'
 
 
 class Graph extends React.Component {
@@ -9,6 +8,11 @@ class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.drawChart = this.drawChart.bind(this)
+    this.addPerson = this.addPerson.bind(this)
+
+    this.state = {
+      selectedpersons: []
+    }
 
   }
 
@@ -19,9 +23,9 @@ class Graph extends React.Component {
   componentWillReceiveProps({ data }) {
     this.updateChart(data)
   }
-  shouldComponentUpdate() {
-    return false;
-  }
+  // shouldComponentUpdate() {
+  //   return false;
+  // }
 
   updateChart(dataset) {
     var diameter = 800;
@@ -36,19 +40,42 @@ class Graph extends React.Component {
       return !d.children
     }).transition().attr("transform", function (d) {
       return "translate(" + d.x + "," + d.y + ")";
-    }).select("circle").attr("r", function (d) {
-      return d.r
-    }).duration(1000);
+    });
+
 
     node.select("circle").transition().attr("r", function (d) {
       return d.r;
-    }).duration(200);
+    }).duration(500);
 
-    //node.select("#tHarry Potter ").attr("font-size", 15)
+    node.select(".nameText").transition().attr("font-size", function (d) {
+      return d.r / 5;
+    }).duration(500)
+
+    node.select(".countText").transition().text(function (d) {
+      return d.data.Count;
+    }).attr("font-size", function (d) {
+      return d.r / 5;
+    }).duration(0)
+  }
+
+  addPerson(pers) {
+    this.setState({
+      selectedpersons: [...this.state.selectedpersons, pers]
+    })
+  }
+
+  removePerson(pers) {
+    const persons = this.state.selectedpersons;
+    var filteredArray = persons.filter(e => e !== pers)
+    this.setState({
+      selectedpersons: filteredArray
+    })
   }
 
   drawChart(dataset) {
-    d3.selectAll("svg").remove();
+
+    const this2 = this;
+
 
     var diameter = 800;
 
@@ -77,16 +104,19 @@ class Graph extends React.Component {
         return "translate(" + d.x + "," + d.y + ")";
       });
 
+
     node.append("circle")
       .attr("r", function (d) {
         return d.r;
       })
       .on("click", function (d) {
         if (d3.select(this).style('fill') !== 'orange') {
-          d3.select(this).style("fill", "orange");
+          d3.select(this).style("fill", "orange")
+          this2.addPerson(d.data)
         }
         else {
           d3.select(this).style("fill", d.data.Color)
+          this2.removePerson(d.data)
         }
       })
       .style("fill", function (d) {
@@ -98,9 +128,12 @@ class Graph extends React.Component {
       .attr("dy", ".2em")
       .style("text-anchor", "middle")
       .text(function (d) {
-        return d.data.Name.substring(0, d.r / 3);
+        var firstname = d.data.Name.split(" ")[0];
+        var lastname = d.data.Name.split(" ")[1][0] + ".";
+        var name = [firstname, lastname]
+        return name.join(" ")
       })
-      .attr("id", function (d){ return "t" + d.data.Name})
+      .attr("class", "nameText")
       .attr("font-family", "sans-serif")
       .attr("font-size", function (d) {
         return d.r / 5;
@@ -109,6 +142,7 @@ class Graph extends React.Component {
 
     node.append("text")
       .attr("dy", "1.3em")
+      .attr("class", "countText")
       .style("text-anchor", "middle")
       .text(function (d) {
         return d.data.Count;
@@ -121,9 +155,10 @@ class Graph extends React.Component {
   }
 
   render() {
-    return (
-      <div id="chart" />
-    );
+    console.log(this)
+    return (<div><div id="chart" /></div>
+      
+      );
   }
 }
 

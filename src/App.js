@@ -12,7 +12,7 @@ class App extends Component {
         data: {},
         width: 960,
         height: 600,
-        skill: "gsx$howwouldyourateyourcollaborationskills"
+        skill: "gsx$average"
       }
   }
 
@@ -20,7 +20,7 @@ class App extends Component {
     const data = this.state.originaldata;
     var objects = [];
     for (var i = 0; i < data.feed.entry.length; i++) {
-      objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseInt(data.feed.entry[i][skill].$t), "Color": data.feed.entry[i].gsx$color.$t };
+      objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][skill].$t),"Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Color": data.feed.entry[i].gsx$color.$t };
     }
     var dataset = {"children" : objects};
     this.setState({data: dataset});
@@ -40,7 +40,7 @@ class App extends Component {
           this2.setState({originaldata: data});
           var objects = [];
           for (var i = 0; i < data.feed.entry.length; i++) {
-            objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseInt(data.feed.entry[i][this2.state.skill].$t), "Color": data.feed.entry[i].gsx$color.$t };
+            objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][this2.state.skill].$t), "Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Color": data.feed.entry[i].gsx$color.$t };
           }
           var dataset = {"children" : objects};
           this2.setState({data: dataset});
@@ -49,7 +49,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.originaldata)
     const { data } = this.state;
     if(data.children !== undefined) {
       return (
@@ -59,6 +58,7 @@ class App extends Component {
             height={this.state.height}
             data={data}
           />
+          <button id="btn" onClick={() => this.handleAddClick("gsx$average")}>Average Score</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourmathematicsskills")}>Mathematics Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcoderepositoryskills")}>Code Repository Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcollaborationskills")}>Collaboration Skills</button>

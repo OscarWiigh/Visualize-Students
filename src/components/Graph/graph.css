@@ -1,5 +1,82 @@
-#chart {
+#container {
     text-align: center;
+}
+
+#chart {
+    display: inline-block;
+}
+
+#colorlabels {
+    text-align: initial;
+    width: 300px;
+    height: 350px;
+    display: inline-block;
+    position: relative;
+    top: -400px;
+    margin-left: 50px;
+
+}
+
+.inner {
+    margin: 5px 0 5px 0;
+}
+
+.square {
+    height:20px;
+    width: 20px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.squaretext {
+    display: inline;
+    color: white;
+    vertical-align: super;
+}
+
+#outdoor {
+    background-color: #31411d;
+}
+
+#excersise {
+    background-color: #d43027;
+}
+
+#programming {
+    background-color: #4b68b4;
+}
+
+#games {
+    background-color: green;
+}
+
+#art {
+    background-color: brown;
+}
+
+#sports {
+    background-color: #818112;
+}
+
+#film {
+    background-color: #96c8e9;
+}
+
+#music {
+    background-color: #713916;
+}
+
+#visual {
+    background-color: #d98a61;
+}
+
+#travel {
+    background-color: #480f9c;
+}
+
+#none {
+    background-color: gray;
 }
 
 circle {

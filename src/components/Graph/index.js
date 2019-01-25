@@ -50,13 +50,13 @@ class Graph extends React.Component {
     }).duration(500);
 
     node.select(".nameText").transition().attr("font-size", function (d) {
-      return d.r / 5;
+      return d.r / 3.5;
     }).duration(500)
 
     node.select(".countText").transition().text(function (d) {
       return d.data.Count;
     }).attr("font-size", function (d) {
-      return d.r / 5;
+      return d.r / 3;
     }).duration(0)
   }
 
@@ -89,6 +89,10 @@ class Graph extends React.Component {
       .append("svg")
       .attr("width", diameter)
       .attr("height", diameter)
+      .call(d3.zoom().on("zoom", function () {
+        svg.attr("transform", d3.event.transform)
+     }))
+      .append("g")
       .attr("class", "bubble");
 
     var nodes = d3.hierarchy(dataset)
@@ -114,10 +118,12 @@ class Graph extends React.Component {
       .on("click", function (d) {
         if (d3.select(this).style('fill') !== 'orange') {
           d3.select(this).style("fill", "orange")
+          d3.select(this).style("stroke", "#ee7600")
           this2.addPerson(d.data)
         }
         else {
           d3.select(this).style("fill", d.data.Color)
+          d3.select(this).style("stroke", "none")
           this2.removePerson(d.data)
         }
       })
@@ -129,6 +135,7 @@ class Graph extends React.Component {
     node.append("text")
       .attr("dy", ".2em")
       .style("text-anchor", "middle")
+      .style("pointer-events", "none")
       .text(function (d) {
         var firstname = d.data.Name.split(" ")[0];
         var lastname = d.data.Name.split(" ")[1][0] + ".";
@@ -136,9 +143,8 @@ class Graph extends React.Component {
         return name.join(" ")
       })
       .attr("class", "nameText")
-      .attr("font-family", "sans-serif")
       .attr("font-size", function (d) {
-        return d.r / 5;
+        return d.r / 3.5;
       })
       .attr("fill", "white");
 
@@ -146,20 +152,70 @@ class Graph extends React.Component {
       .attr("dy", "1.3em")
       .attr("class", "countText")
       .style("text-anchor", "middle")
+      .style("pointer-events", "none")
       .text(function (d) {
         return d.data.Count;
       })
-      .attr("font-family", "Gill Sans", "Gill Sans MT")
       .attr("font-size", function (d) {
-        return d.r / 5;
+        return d.r / 3;
       })
       .attr("fill", "white");
   }
 
   render() {
-    return (<div><div id="chart" /><SimpleTable data={this.state.selectedpersons}/></div>
-      
-      );
+    return (
+      <div id="container">
+        <div id="chart"/>
+        <div id="colorlabels">
+          <div className="inner">
+            <div className="square" id="outdoor"></div>
+            <p className="squaretext">Outdoor activities</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="excersise"></div>
+            <p className="squaretext">Exercising</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="programming"></div>
+            <p className="squaretext">Programming</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="games"></div>
+            <p className="squaretext">Games</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="art"></div>
+            <p className="squaretext">Art</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="sports"></div>
+            <p className="squaretext">Sports</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="film"></div>
+            <p className="squaretext">Film</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="music"></div>
+            <p className="squaretext">Music</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="visual"></div>
+            <p className="squaretext">Visual Media</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="travel"></div>
+            <p className="squaretext">Travelling</p>
+          </div>
+          <div className="inner">
+          <div className="square" id="none"></div>
+            <p className="squaretext">None</p>
+          </div>
+        </div>
+        <SimpleTable data={this.state.selectedpersons} />
+      </div>
+
+    );
   }
 }
 

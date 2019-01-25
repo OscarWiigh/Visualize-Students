@@ -10,9 +10,9 @@ class App extends Component {
       this.state = {
         originaldata: {},
         data: {},
-        width: 960,
+        width: 900,
         height: 600,
-        skill: "gsx$average"
+        skill: "gsx$howwouldyourateyourinformationvisualizationskills"
       }
   }
 
@@ -20,7 +20,7 @@ class App extends Component {
     const data = this.state.originaldata;
     var objects = [];
     for (var i = 0; i < data.feed.entry.length; i++) {
-      objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][skill].$t),"Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Color": data.feed.entry[i].gsx$color.$t };
+      objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][skill].$t),"Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Interest": data.feed.entry[i].gsx$interest.$t, "Degree": data.feed.entry[i].gsx$whatdegreeareyoupursuing.$t, "Average": data.feed.entry[i].gsx$average.$t, "Color": data.feed.entry[i].gsx$color.$t };
     }
     var dataset = {"children" : objects};
     this.setState({data: dataset});
@@ -40,7 +40,7 @@ class App extends Component {
           this2.setState({originaldata: data});
           var objects = [];
           for (var i = 0; i < data.feed.entry.length; i++) {
-            objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][this2.state.skill].$t), "Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Color": data.feed.entry[i].gsx$color.$t };
+            objects[i] = {"Name": data.feed.entry[i].gsx$whatisyourfirstandlastname.$t, "Count": parseFloat(data.feed.entry[i][this2.state.skill].$t), "Major": data.feed.entry[i].gsx$whatisyourmajor.$t, "Interest": data.feed.entry[i].gsx$interest.$t, "Degree": data.feed.entry[i].gsx$whatdegreeareyoupursuing.$t, "Average": data.feed.entry[i].gsx$average.$t, "Color": data.feed.entry[i].gsx$color.$t };
           }
           var dataset = {"children" : objects};
           this2.setState({data: dataset});
@@ -53,12 +53,10 @@ class App extends Component {
     if(data.children !== undefined) {
       return (
         <div id="graphContainer">
-          <Graph
-            width={this.state.width}
-            height={this.state.height}
-            data={data}
-          />
-          <button id="btn" onClick={() => this.handleAddClick("gsx$average")}>Average Score</button>
+          <div id="header">
+            <h1 id="headertitle">Visualizing Students</h1>
+            <p id="headerparagraph">Below is a Bubble Chart that represents the skills of students enrolled in the course Information Visualization VT19 @KTH.<br/>Each bubble corresponds with a student and it's size reflects their self-estimated skill level in a certain area.<br/>Explore different skill areas of clicking on the adjacents buttons above the chart.<br/> Zoom by either double clicking or scrolling to a desired point.<br/>The color of each bubble represents the main interest of the student.<br/>Click on a bubble to add a student to the table below and gain more information about him/her. <br/> Click on the same bubble again to remove it. </p>
+          </div>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourmathematicsskills")}>Mathematics Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcoderepositoryskills")}>Code Repository Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcollaborationskills")}>Collaboration Skills</button>
@@ -71,10 +69,15 @@ class App extends Component {
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourprogrammingskills")}>Programming Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourstatisticalskills")}>Statistical Skills</button>
           <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyouruserexperienceevaluationskills")}>UX Evaluation Skills</button>
+          <Graph
+            width={this.state.width}
+            height={this.state.height}
+            data={data}
+          />
         </div>
     )
     }
-    else {return null}
+    else {return <p>Loading</p>}
   }
 }
 

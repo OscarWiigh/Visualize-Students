@@ -11,13 +11,28 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    }
+  }
+  ,
   table: {
     minWidth: 700,
   },
 });
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: "#0098fb",
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 20,
+  },
+}))(TableCell);
 
 function createData(data) {
   var objects = [];
@@ -25,10 +40,13 @@ function createData(data) {
     for (var i = 0; i < data.data.length; i++) {
       var name = data.data[i].Name;
       var major = data.data[i].Major;
-      objects[i] = { id: i, name, major};
+      var interest = data.data[i].Interest;
+      var degree = data.data[i].Degree;
+      var average = data.data[i].Average;
+      objects[i] = { id: i, name, major, interest, degree, average};
     }
   }
-  else objects = {id: 0, name : "", major : ""}
+  else objects[0] = {id: 0, name : "-", major : "-", interest: "-", degree: "-", average: "-"}
   return objects;
 }
 
@@ -38,14 +56,9 @@ class SimpleTable extends React.Component {
     super(props);
 
   }
-
-  // componentWillReceiveProps({ data }) {
-  //   this.makeTable(data)
-  // }
-
   makeTable(data) {
 
-    const rows = createData(this.props);
+    const rows = createData(data);
     const { classes } = this.props;
     return (
       <div id="container">
@@ -53,17 +66,23 @@ class SimpleTable extends React.Component {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Major</TableCell>
+              <CustomTableCell align="center">Name</CustomTableCell>
+              <CustomTableCell align="center">Interest</CustomTableCell>
+              <CustomTableCell align="center">Major</CustomTableCell>
+              <CustomTableCell align="center">Degree</CustomTableCell>
+              <CustomTableCell align="center">Average Skill Level</CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map(row => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell align="center">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.major}</TableCell>
+                <TableCell align="center">{row.interest}</TableCell>
+                <TableCell align="center">{row.major}</TableCell>
+                <TableCell align="center">{row.degree}</TableCell>
+                <TableCell align="center">{row.average}</TableCell>
               </TableRow>
             ))}
           </TableBody>

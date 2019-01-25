@@ -16,7 +16,12 @@ class App extends Component {
       }
   }
 
-  handleAddClick(skill) {
+  handleAddClick(skill, element) {
+    var buttons = (document.getElementsByClassName("btn"));
+		for (var j = 0; j < buttons.length; j++) { 
+    		buttons[j].className = "btn";
+    }
+    document.getElementById(element.target.id).className = "btn default";
     const data = this.state.originaldata;
     var objects = [];
     for (var i = 0; i < data.feed.entry.length; i++) {
@@ -55,20 +60,23 @@ class App extends Component {
         <div id="graphContainer">
           <div id="header">
             <h1 id="headertitle">Visualizing Students</h1>
-            <p id="headerparagraph">Below is a Bubble Chart that represents the skills of students enrolled in the course Information Visualization VT19 @KTH.<br/>Each bubble corresponds with a student and it's size reflects their self-estimated skill level in a certain area.<br/>Explore different skill areas of clicking on the adjacents buttons above the chart.<br/> Zoom by either double clicking or scrolling to a desired point.<br/>The color of each bubble represents the main interest of the student.<br/>Click on a bubble to add a student to the table below and gain more information about him/her. <br/> Click on the same bubble again to remove it. </p>
+            <h2 id="headerauthor">By Oscar Wiigh</h2>
+            <p id="headerparagraph">Below is a Bubble Chart that represents the skills of students enrolled in the course Information Visualization VT19 @KTH.<br/>Each bubble corresponds with a student and it's size reflects their self-estimated skill level in a certain area.<br/>Explore different skill areas of clicking on the adjacents buttons above the chart.<br/> Pan and zoom by either double clicking or scrolling to a desired point.<br/>The color of each bubble represents the main interest of the student.<br/>Click on a bubble to add a student to the table below and gain more information about him/her. <br/> Click on the same bubble again to remove it. </p>
           </div>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourmathematicsskills")}>Mathematics Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcoderepositoryskills")}>Code Repository Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcollaborationskills")}>Collaboration Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcommunicationskills")}>Communication Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcomputergraphicsprogrammingskills")}>Computer Graphics Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourcomputerusageskills")}>Computer Usage Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourdrawingandartisticskills")}>Artistic Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourhuman-computerinteractionprogrammingskills")}>HCI Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourinformationvisualizationskills")}>InfoViz Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourprogrammingskills")}>Programming Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyourstatisticalskills")}>Statistical Skills</button>
-          <button id="btn" onClick={() => this.handleAddClick("gsx$howwouldyourateyouruserexperienceevaluationskills")}>UX Evaluation Skills</button>
+          <div id="buttoncontainer">
+          <button className="btn" id="math" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourmathematicsskills", e)}>Mathematics Skills</button>
+          <button className="btn" id ="code" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourcoderepositoryskills", e)}>Code Repository Skills</button>
+          <button className="btn" id="collab" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourcollaborationskills", e)}>Collaboration Skills</button>
+          <button className="btn" id="comm" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourcommunicationskills", e)}>Communication Skills</button>
+          <button className="btn" id ="CG" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourcomputergraphicsprogrammingskills", e)}>Computer Graphics Skills</button>
+          <button className="btn" id="computer" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourcomputerusageskills", e)}>Computer Usage Skills</button>
+          <button className="btn" id="artskills" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourdrawingandartisticskills", e)}>Artistic Skills</button>
+          <button className="btn" id="HCI" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourhuman-computerinteractionprogrammingskills", e)}>HCI Skills</button>
+          <button className="btn default" id="infoviz" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourinformationvisualizationskills", e)}>InfoViz Skills</button>
+          <button className="btn" id="program" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourprogrammingskills", e)}>Programming Skills</button>
+          <button className="btn" id ="stat" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyourstatisticalskills", e)}>Statistical Skills</button>
+          <button className="btn" id="UX" onClick={(e) => this.handleAddClick("gsx$howwouldyourateyouruserexperienceevaluationskills", e)}>UX Evaluation Skills</button>
+          </div>
           <Graph
             width={this.state.width}
             height={this.state.height}

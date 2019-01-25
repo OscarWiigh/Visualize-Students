@@ -44,7 +44,6 @@ class Graph extends React.Component {
       return "translate(" + d.x + "," + d.y + ")";
     });
 
-
     node.select("circle").transition().attr("r", function (d) {
       return d.r;
     }).duration(500);
@@ -92,6 +91,7 @@ class Graph extends React.Component {
       .call(d3.zoom().on("zoom", function () {
         svg.attr("transform", d3.event.transform)
      }))
+      .on("wheel.zoom", null) 
       .append("g")
       .attr("class", "bubble");
 
@@ -109,7 +109,6 @@ class Graph extends React.Component {
       .attr("transform", function (d) {
         return "translate(" + d.x + "," + d.y + ")";
       });
-
 
     node.append("circle")
       .attr("r", function (d) {
@@ -161,7 +160,6 @@ class Graph extends React.Component {
       })
       .attr("fill", "white");
   }
-
   render() {
     return (
       <div id="container">

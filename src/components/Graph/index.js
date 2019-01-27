@@ -38,9 +38,7 @@ class Graph extends React.Component {
       .size([diameter, diameter])
       .padding(1.5);
 
-    var node = d3.selectAll(".node").data(bubble(nodes).descendants()).filter(function (d) {
-      return !d.children
-    }).transition().attr("transform", function (d) {
+    var node = d3.selectAll(".node").data(bubble(nodes).descendants().filter(function (d){return !d.children})).transition().attr("transform", function (d) {
       return "translate(" + d.x + "," + d.y + ")";
     });
 
@@ -97,7 +95,7 @@ class Graph extends React.Component {
 
     var nodes = d3.hierarchy(dataset)
       .sum(function (d) { return d.Count; });
-
+    
     var node = svg.selectAll(".node")
       .data(bubble(nodes).descendants())
       .enter()
